@@ -15,7 +15,7 @@ public class Benchmark {
 
     public static void main(String [] args) {
 
-        IPrefix [] prefixSums = {new SequentialPrefix(), new ParallelPrefixInternal(), new BetterParallelPrefix()};
+        IPrefix [] prefixSums = {new SequentialPrefix(), new ParallelPrefix(), new ParallelPrefixInternal(), new BetterParallelPrefix()};
         System.out.printf("Running benchmarks...\n");
 
         /* Run for various buffer sizes  */
