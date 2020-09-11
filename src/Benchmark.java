@@ -15,7 +15,7 @@ public class Benchmark {
 
     public static void main(String [] args) {
 
-        IPrefix [] prefixSums = {new SequentialPrefix(), new ParallelPrefix(), new ParallelPrefixInternal(), new BetterParallelPrefix()};
+        IPrefix [] prefixSums = {new SequentialPrefix(), new ParallelPrefixInternal()};
         System.out.printf("Running benchmarks...\n");
 
         /* Run for various buffer sizes  */
@@ -28,6 +28,14 @@ public class Benchmark {
                 /* TODO: Calculate results */
                 long averageTime = 0;
                 float speedup = 0;
+
+                long startTime = System.currentTimeMillis();
+
+                for (int i = 0; i < numRuns; i++) {
+                    s.run(inputFileName, bufferSize);
+                }
+
+                averageTime = (System.currentTimeMillis() - startTime) / numRuns;
 
                 /* Print results */
                 System.out.printf("Average time: %o\n", averageTime);
