@@ -1,15 +1,13 @@
 import java.io.*;
-import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 
 /**
- *  Improved version of ParallelPrefix
+ *  Improved version of ParallelPrefix (I use the common pool)
  *
  */
 public class BetterParallelPrefix implements IPrefix {
     /* Minimum size to stop reducing (how many elements to start calculating sequentially). */
     private int minGran;
-    ForkJoinPool pool = ForkJoinPool.commonPool();
 
     private class BottomUp extends RecursiveAction {
         private int chunk[];
@@ -113,7 +111,7 @@ public class BetterParallelPrefix implements IPrefix {
 
             /* we have to read data in as chars and convert */
             chunk = new int[bufferSize];
-            minGran = Math.max(bufferSize / ncpu, 64);
+            minGran = Math.max(bufferSize / ncpu, 32);
 
             while (0 != (iread = IPrefix.getChunk(in, chunk))) {
                 /* Bottom-up, just start on main thread */

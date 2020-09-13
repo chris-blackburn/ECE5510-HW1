@@ -124,10 +124,10 @@ public class ParallelPrefix implements IPrefix {
 
             /* we have to read data in as chars and convert */
             chunk = new int[bufferSize];
-            minGran = Math.max(bufferSize / ncpu, 64);
+            minGran = Math.max(bufferSize / ncpu, 32);
 
             while (0 != (iread = IPrefix.getChunk(in, chunk))) {
-                /* Bottom-up */
+                /* Bottom-up (don't spin up new thread for the first call) */
                 bu = new ParallelPrefix.BottomUp(chunk, 0, iread - 1);
                 bu.run();
 
