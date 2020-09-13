@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Arrays;
 
 /**
  *  Finds the prefix sum using a parallel algorithm
@@ -39,8 +38,8 @@ public class ParallelPrefix implements IPrefix {
             }
 
             mid = start + ((end - start) >> 1);
-            left = new Thread(new BottomUp(chunk, start, mid));
-            right = new Thread(new BottomUp(chunk, mid + 1, end));
+            left = new Thread(new ParallelPrefix.BottomUp(chunk, start, mid));
+            right = new Thread(new ParallelPrefix.BottomUp(chunk, mid + 1, end));
 
             left.start();
             right.start();
@@ -94,8 +93,8 @@ public class ParallelPrefix implements IPrefix {
 
             mid = start + ((end - start) >> 1);
             leftSum = chunk[mid];
-            left = new Thread(new TopDown(chunk, start, mid, fromLeft));
-            right = new Thread(new TopDown(chunk, mid + 1, end, fromLeft + leftSum));
+            left = new Thread(new ParallelPrefix.TopDown(chunk, start, mid, fromLeft));
+            right = new Thread(new ParallelPrefix.TopDown(chunk, mid + 1, end, fromLeft + leftSum));
 
             left.start();
             right.start();
@@ -116,8 +115,8 @@ public class ParallelPrefix implements IPrefix {
 
         int chunk[], iread;
 
-        BottomUp bu;
-        TopDown td;
+        ParallelPrefix.BottomUp bu;
+        ParallelPrefix.TopDown td;
 
         try {
             in = new BufferedReader(new FileReader(inputFileName));
@@ -129,7 +128,7 @@ public class ParallelPrefix implements IPrefix {
 
             while (0 != (iread = IPrefix.getChunk(in, chunk))) {
                 /* Bottom-up */
-                bu = new BottomUp(chunk, 0, iread - 1);
+                bu = new ParallelPrefix.BottomUp(chunk, 0, iread - 1);
                 bu.run();
 
                 /* Since my result is shifted over, and since we already have the final sum, we want to record it to be
@@ -137,7 +136,7 @@ public class ParallelPrefix implements IPrefix {
                 endSum = chunk[iread - 1];
 
                 /* Top-down */
-                td = new TopDown(chunk, 0, iread - 1, 0);
+                td = new ParallelPrefix.TopDown(chunk, 0, iread - 1, 0);
                 td.run();
 
                 /* Write back. */
