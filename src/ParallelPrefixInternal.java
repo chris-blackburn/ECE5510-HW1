@@ -9,7 +9,6 @@ public class ParallelPrefixInternal implements IPrefix {
     public void run(String inputFileName, int bufferSize) {
         BufferedReader in;
         BufferedWriter out;
-        String nStr;
         int prevSum = 0;
 
         int chunk[], iread;
