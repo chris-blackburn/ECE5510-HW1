@@ -8,14 +8,14 @@ public class Benchmark {
     public static String inputFileName = "in.txt";
 
     /* Total number of elements to hold in memory at a time */
-    public static int [] bufferSizes = {1000}; //, 10000, 100000};
+    public static int [] bufferSizes = {1000, 10000, 100000};
 
     /* Find the average of numRuns # of runs for each type of prefix sum */
     public static int numRuns = 10;
 
     public static void main(String [] args) {
 
-        IPrefix [] prefixSums = {new SequentialPrefix(), new ParallelPrefixInternal()};
+        IPrefix [] prefixSums = {new SequentialPrefix(), new ParallelPrefix(), new ParallelPrefixInternal()};
         System.out.printf("Running benchmarks...\n");
 
         /* Run for various buffer sizes  */
